@@ -22,7 +22,7 @@ const FILES_TO_CACHE = [
 ];
 
 
-//using the ewait to the let browser know that it needs to finish before closing
+//using the ewait to the let browser know that it needs to finish cacheing before closing
 
 self.addEventListener("install", function (e) {
   e.waitUntil(
@@ -32,3 +32,12 @@ self.addEventListener("install", function (e) {
     })
   );
 });
+
+self.addEventListener('activate', function (e) {
+  e.waitUntil(
+    caches.keys().then(function (keyList) {
+      let cacheKeeplist = keyList.filter(function (key) {
+        return key.indexOf(APP_PREFIX);
+      })
+
+    cacheKeeplist.push(CACHE_NAME);
