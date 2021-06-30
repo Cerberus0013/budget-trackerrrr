@@ -13,7 +13,7 @@ request.onupgradeneeded = function(event) {
 };
 // upon a successful 
 request.onsuccess = function(event) {
-  /
+  
   db = event.target.result;
 
   
@@ -28,14 +28,14 @@ request.onerror = function(event) {
   console.log(event.target.errorCode);
 };
 
-// This function will be executed if we attempt to submit a new pizza and there's no internet connection
+// This function will be executed if we attempt to submit a new tracker and there's no internet connection
 function saveRecord(record) {
   // open a new transaction with the database with read and write permissions 
   const transaction = db.transaction(['new_tracker'], 'readwrite');
 
-  // access the object store for `new_pizza`
-  const pizzaObjectStore = transaction.objectStore('new_tracker');
+  
+  const trackerObjectStore = transaction.objectStore('new_tracker');
 
-  // add record to your store with add method
-  pizzaObjectStore.add(record);
+
+  trackerObjectStore.add(record);
 }
