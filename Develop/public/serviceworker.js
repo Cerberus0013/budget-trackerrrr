@@ -21,6 +21,7 @@ const FILES_TO_CACHE = [
   "/js/index.js",
 ];
 
+//*I had the change up the proper TOE order, because for some reason my VS code says the activate function, I left it at the bottom for you to see
 
 //using the ewait to the let browser know that it needs to finish cacheing before closing
 
@@ -33,6 +34,26 @@ self.addEventListener("install", function (e) {
   );
 });
 
+self.addEventListener('activate', function(e) {
+  e.waitUntil(
+    caches.keys().then(function(keyList) {
+      let cacheKeeplist = keyList.filter(function(key) {
+        return key.indexOf(APP_PREFIX);
+      });
+      cacheKeeplist.push(CACHE_NAME);
+
+      return Promise.all(
+        keyList.map(function(key, i) {
+          if (cacheKeeplist.indexOf(key) === -1) {
+            console.log('deleting cache : ' + keyList[i]);
+            return caches.delete(keyList[i]);
+          }
+        })
+      );
+    })
+  );
+});
+
 self.addEventListener('activate', function (e) {
   e.waitUntil(
     caches.keys().then(function (keyList) {
@@ -40,4 +61,41 @@ self.addEventListener('activate', function (e) {
         return key.indexOf(APP_PREFIX);
       })
 
-    cacheKeeplist.push(CACHE_NAME);
+    cacheKeeplist.push(CACHE_NAME)
+    
+    return Promise.all(keyList.map(function (key, i) {
+  if (cacheKeeplist.indexOf(key) === -1) {
+    console.log('deleting cache : ' + keyList[i] );
+    return caches.delete(keyList[i]);
+  }
+}))}
+
+self.addEventListener('activate', function(e) {
+  e.waitUntil(
+    caches.keys().then(function(keyList) {
+      let cacheKeeplist = keyList.filter(function(key) {
+        return key.indexOf(APP_PREFIX);
+      });
+      cacheKeeplist.push(CACHE_NAME);
+
+      return Promise.all(
+        keyList.map(function(key, i) {
+          if (cacheKeeplist.indexOf(key) === -1) {
+            console.log('deleting cache : ' + keyList[i]);
+            return caches.delete(keyList[i]);
+          }
+        })
+      );
+    })
+  );
+})
+
+
+
+
+
+
+
+
+
+
